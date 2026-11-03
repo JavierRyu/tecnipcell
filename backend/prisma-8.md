@@ -1,17 +1,25 @@
-# Welcome to Prisma ORM!
+# ¡Bienvenido a Prisma ORM!
 
-Prisma ORM lets you query your database in simple, easy-to-read TypeScript. Define what your data looks like, and Prisma ORM gives you a fully typed client — with autocomplete for every table, column, and relation.
+Prisma ORM permite interactuar con bases de datos utilizando TypeScript de una manera sencilla, clara y fácil de leer.
 
-This project is set up for PostgreSQL. Prisma ORM also supports other databases.
+Define cómo están estructurados tus datos y Prisma ORM generará un cliente completamente tipado, con autocompletado para cada tabla, columna y relación.
 
-## Requirements
+Este proyecto está configurado para utilizar **PostgreSQL**, aunque Prisma ORM también es compatible con otras bases de datos.
 
-- **PostgreSQL 15 or newer.** Older servers are not supported. Run `SELECT version()` against your server to verify.
-- The CLI never connects to your database without explicit consent. Pass `--probe-db` to `npx prisma orm init` if you want `init` to verify the server version itself.
+## Requisitos
 
-## Your data contract
+- **PostgreSQL 15 o superior:** las versiones anteriores no son compatibles. Puedes ejecutar `SELECT version()` en tu servidor para verificar la versión instalada.
+- La CLI no se conecta a tu base de datos sin autorización explícita. Si deseas que el comando `init` verifique la versión del servidor, utiliza la opción `--probe-db` al ejecutar `npx prisma orm init`.
 
-Your data contract is the heart of your application. It lives at [`src/prisma/contract.prisma`](src/prisma/contract.prisma) and describes your models:
+## Contrato de datos
+
+El contrato de datos es el núcleo de la aplicación. Se encuentra en:
+
+`src/prisma/contract.prisma`
+
+Aquí se definen los modelos que representan la estructura de los datos.
+
+Ejemplo:
 
 ```prisma
 model User {
@@ -22,7 +30,9 @@ model User {
 }
 ```
 
-Every model you define in your contract can be queried from your app. Your editor will autocomplete the query methods and show you what type each model field is:
+Cada modelo definido en el contrato podrá consultarse desde la aplicación.
+
+Ejemplo de consulta:
 
 ```typescript
 import { db } from './src/prisma/db';
@@ -30,23 +40,32 @@ import { db } from './src/prisma/db';
 const user = await db.orm.public.User
   .where({ email: 'alice@example.com' })
   .first();
-
-// Your editor will show the type of user as
-// { id: number; email: string; username: string | null; name: string | null; createdAt: Date; posts: Post[] } | null
 ```
 
-Your contract has two companion files in the same directory:
+Prisma ORM proporciona autocompletado y comprobación de tipos en el editor de código.
 
-- **`contract.json`** — this tells your application what models exist, just like `package-lock.json` tells your package manager what dependencies your project has
-- **`contract.d.ts`** — this powers autocomplete and type checking in your editor
+### Archivos complementarios
 
-Commit both files to git. When you change your contract, run `npx prisma contract emit` to update them.
+El contrato cuenta con dos archivos complementarios:
 
-If you use a framework like Next.js or Vite, the Prisma ORM plugin will do this for you automatically.
+- **`contract.json`:** contiene información sobre los modelos existentes en la aplicación.
+- **`contract.d.ts`:** proporciona las definiciones de tipos necesarias para el autocompletado y la comprobación de tipos en TypeScript.
 
-## Configuration
+Ambos archivos deben incluirse en Git.
 
-[`prisma.config.ts`](prisma.config.ts) tells the CLI where your contract lives and how to connect to your database. It loads environment variables from `.env` automatically:
+Cuando se modifique el contrato, se debe ejecutar:
+
+```bash
+npx prisma contract emit
+```
+
+Este comando actualiza automáticamente los archivos complementarios.
+
+## Configuración
+
+El archivo `prisma.config.ts` indica dónde se encuentra el contrato de datos y cómo conectarse a la base de datos.
+
+Ejemplo:
 
 ```typescript
 import 'dotenv/config';
@@ -63,44 +82,50 @@ export default definePrismaConfig({
 });
 ```
 
-Notice the `DATABASE_URL` above? It's defined in your [`.env`](./.env) file:
+La variable `DATABASE_URL` se encuentra definida en el archivo `.env`.
+
+Ejemplo:
 
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/mydb"
 ```
 
-You can customize how your environment variables are loaded by changing or removing the `import 'dotenv/config'` line.
+Esta variable contiene la información necesaria para establecer la conexión con PostgreSQL.
 
-## Quick reference
+## Comandos principales
 
-### Commands
-
-```bash
-npx prisma contract emit       # Update contract.json and contract.d.ts
-npx prisma db init             # Create tables in the database
-npx prisma migration status    # Show migration status
-```
-
-### Files
-
-| File | Purpose |
+| Comando | Descripción |
 |---|---|
-| [`src/prisma/contract.prisma`](src/prisma/contract.prisma) | Your data contract — define your models here |
-| [`prisma.config.ts`](prisma.config.ts) | CLI configuration |
-| [`src/prisma/db.ts`](src/prisma/db.ts) | Database client — `import { db } from './src/prisma/db'` |
-| `src/prisma/contract.json` | Compiled contract (generated) |
-| `src/prisma/contract.d.ts` | Contract types (generated) |
+| `npx prisma contract emit` | Actualiza `contract.json` y `contract.d.ts`. |
+| `npx prisma db init` | Inicializa las tablas en la base de datos. |
+| `npx prisma migration status` | Muestra el estado de las migraciones. |
 
-### Workflow
+## Estructura de archivos
 
-1. Edit [`src/prisma/contract.prisma`](src/prisma/contract.prisma) to add or change models.
-2. Run `npx prisma contract emit` to regenerate the contract.
-3. Query your models — your IDE will autocomplete everything.
+| Archivo | Función |
+|---|---|
+| `src/prisma/contract.prisma` | Define los modelos y la estructura de los datos. |
+| `prisma.config.ts` | Configura Prisma ORM y la conexión a la base de datos. |
+| `src/prisma/db.ts` | Contiene el cliente para interactuar con la base de datos. |
+| `src/prisma/contract.json` | Contrato compilado y generado automáticamente. |
+| `src/prisma/contract.d.ts` | Definiciones de tipos para TypeScript. |
 
-## Monorepo notes (pnpm workspaces)
+## Flujo de trabajo
 
-If this project lives inside a pnpm workspace, a few things are worth knowing:
+Para trabajar con Prisma ORM se deben seguir estos pasos:
 
-- **Catalogs.** When the workspace's `pnpm-workspace.yaml` defines a `catalogs` entry for `prisma` or `@prisma/orm-postgres`, pnpm uses the catalog version everywhere — `init` does too. If you wanted the published `latest` instead, update or remove the catalog entry, then re-run `pnpm install`.
-- **`pnpm dlx`.** `pnpm dlx prisma@latest orm init …` works in any directory. Inside a workspace, pnpm still resolves dependencies through the workspace's catalog/overrides rather than the registry; expect the installed Prisma ORM packages to reflect the workspace's catalog rather than `latest`.
-- **`pnpm` → `npm` fallback.** If `pnpm` ever fails to install Prisma ORM with a `workspace:*` or `catalog:` resolution error (a leak in a published artefact), `init` falls back to `npm install` and surfaces a warning. Once the offending package republishes a clean version you can switch back with `pnpm install`.
+1. **Modificar el contrato:** editar `src/prisma/contract.prisma` para agregar o modificar modelos.
+2. **Generar los archivos:** ejecutar `npx prisma contract emit` para actualizar los archivos complementarios.
+3. **Consultar los modelos:** utilizar el cliente de Prisma ORM desde la aplicación, aprovechando el autocompletado y la comprobación de tipos.
+
+## Consideraciones para Monorepos (pnpm workspaces)
+
+Si el proyecto utiliza pnpm workspaces, se deben considerar los siguientes aspectos:
+
+- **Catálogos:** si `pnpm-workspace.yaml` define un catálogo para `prisma` o `@prisma/orm-postgres`, pnpm utilizará las versiones especificadas en dicho catálogo.
+- **pnpm dlx:** permite ejecutar `pnpm dlx prisma@latest orm init` desde cualquier directorio. Sin embargo, dentro de un workspace se respetarán las versiones definidas en los catálogos y configuraciones.
+- **Alternativa con npm:** si pnpm encuentra errores de resolución relacionados con `workspace:*` o `catalog:`, el proceso de inicialización puede recurrir automáticamente a npm. Una vez corregido el problema, se puede volver a utilizar pnpm mediante `pnpm install`.
+
+---
+
+**En resumen:** Prisma ORM permite definir la estructura de la base de datos mediante un contrato, generar tipos para TypeScript y realizar consultas con autocompletado, facilitando el desarrollo y mantenimiento de la aplicación.

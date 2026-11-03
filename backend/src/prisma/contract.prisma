@@ -1,3 +1,30 @@
 // use prisma-8
 
+model Cliente {
+  id       Int     @id @default(autoincrement())
+  nombre   String
+  cedula   String  @unique
+  telefono String
+  fichas   Ficha[]
+}
+
+model Ficha {
+  id               Int       @id @default(autoincrement())
+  clienteId        Int
+  cliente          Cliente   @relation(fields: [clienteId], references: [id])
+  dispositivo      String
+  marca            String
+  modelo           String
+  imei             String?
+  bloqueo          String?
+  servicio         String
+  problema         String
+  descripcion      String?
+  observaciones    String?
+  estado           String    @default("recibido")
+  costo            Int       @default(0)
+  anticipo         Int       @default(0)
+  fechaIngreso     DateTime  @default(now())
+  fechaEntrega     DateTime?
+}
 

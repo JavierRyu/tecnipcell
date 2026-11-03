@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'0c0734babd6eeb868fee1f281ca96963022475611560e9f170f465daa35f8599'>;
+  StorageHashBase<'50100f8632963795b14408268e63a9c4fdd74b63e9e9c6df3e5640c30c064ba6'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -307,10 +307,42 @@ export type StorageColumnInputTypes = ColumnTypesFromStorage<
   'input'
 >;
 
-export namespace Models {}
+export namespace Models {
+  export type public_Cliente = {
+    cedula: FieldOutputTypes['public']['Cliente']['cedula'];
+    id: FieldOutputTypes['public']['Cliente']['id'];
+    nombre: FieldOutputTypes['public']['Cliente']['nombre'];
+    telefono: FieldOutputTypes['public']['Cliente']['telefono'];
+    fichas: public_Ficha[];
+    readonly [RelationKeys]?: 'fichas';
+  };
+  export type public_Ficha = {
+    anticipo: FieldOutputTypes['public']['Ficha']['anticipo'];
+    bloqueo: FieldOutputTypes['public']['Ficha']['bloqueo'];
+    clienteId: FieldOutputTypes['public']['Ficha']['clienteId'];
+    costo: FieldOutputTypes['public']['Ficha']['costo'];
+    descripcion: FieldOutputTypes['public']['Ficha']['descripcion'];
+    dispositivo: FieldOutputTypes['public']['Ficha']['dispositivo'];
+    estado: FieldOutputTypes['public']['Ficha']['estado'];
+    fechaEntrega: FieldOutputTypes['public']['Ficha']['fechaEntrega'];
+    fechaIngreso: FieldOutputTypes['public']['Ficha']['fechaIngreso'];
+    id: FieldOutputTypes['public']['Ficha']['id'];
+    imei: FieldOutputTypes['public']['Ficha']['imei'];
+    marca: FieldOutputTypes['public']['Ficha']['marca'];
+    modelo: FieldOutputTypes['public']['Ficha']['modelo'];
+    observaciones: FieldOutputTypes['public']['Ficha']['observaciones'];
+    problema: FieldOutputTypes['public']['Ficha']['problema'];
+    servicio: FieldOutputTypes['public']['Ficha']['servicio'];
+    cliente: public_Cliente;
+    readonly [RelationKeys]?: 'cliente';
+  };
+}
 
 export declare const models: {
-  public: {};
+  public: {
+    Cliente: Models.public_Cliente;
+    Ficha: Models.public_Ficha;
+  };
 };
 
 export type TypeMaps = TypeMapsType<
@@ -329,7 +361,189 @@ type ContractBase = Omit<
       readonly public: {
         readonly id: 'public';
         readonly kind: 'postgres-schema';
-        readonly entries: { readonly table: {} };
+        readonly entries: {
+          readonly table: {
+            readonly Cliente: {
+              columns: {
+                readonly cedula: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                  readonly many: false;
+                };
+                readonly nombre: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly telefono: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [{ readonly columns: readonly ['cedula'] }];
+              indexes: readonly [];
+              foreignKeys: readonly [];
+            };
+            readonly Ficha: {
+              columns: {
+                readonly anticipo: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/int4@1', 0>;
+                  };
+                  readonly many: false;
+                };
+                readonly bloqueo: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly clienteId: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly costo: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/int4@1', 0>;
+                  };
+                  readonly many: false;
+                };
+                readonly descripcion: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly dispositivo: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly estado: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'recibido'>;
+                  };
+                  readonly many: false;
+                };
+                readonly fechaEntrega: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly fechaIngreso: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                  readonly many: false;
+                };
+                readonly imei: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly marca: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly modelo: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly observaciones: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly problema: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly servicio: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'Ficha_clienteId_idx_7ae16308';
+                  readonly prefix: 'Ficha_clienteId_idx';
+                  readonly columns: readonly ['clienteId'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Ficha';
+                    readonly columns: readonly ['clienteId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Cliente';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
+          };
+        };
       };
     };
     readonly storageHash: StorageHash;
@@ -338,11 +552,170 @@ type ContractBase = Omit<
 > & {
   readonly target: 'postgres';
   readonly targetFamily: 'sql';
-  readonly roots: Record<string, never>;
+  readonly roots: {
+    readonly Cliente: { readonly namespace: 'public' & NamespaceId; readonly model: 'Cliente' };
+    readonly Ficha: { readonly namespace: 'public' & NamespaceId; readonly model: 'Ficha' };
+  };
   readonly domain: {
     readonly namespaces: {
       readonly public: {
-        readonly models: Record<string, never>;
+        readonly models: {
+          readonly Cliente: {
+            readonly fields: {
+              readonly cedula: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly nombre: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly telefono: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: {
+              readonly fichas: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Ficha';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['clienteId'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'Cliente';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly cedula: { readonly column: 'cedula' };
+                readonly id: { readonly column: 'id' };
+                readonly nombre: { readonly column: 'nombre' };
+                readonly telefono: { readonly column: 'telefono' };
+              };
+            };
+          };
+          readonly Ficha: {
+            readonly fields: {
+              readonly anticipo: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly bloqueo: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly clienteId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly costo: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly descripcion: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly dispositivo: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly estado: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly fechaEntrega: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly fechaIngreso: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly imei: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly marca: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly modelo: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly observaciones: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly problema: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly servicio: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: {
+              readonly cliente: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Cliente';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['clienteId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'Ficha';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly anticipo: { readonly column: 'anticipo' };
+                readonly bloqueo: { readonly column: 'bloqueo' };
+                readonly clienteId: { readonly column: 'clienteId' };
+                readonly costo: { readonly column: 'costo' };
+                readonly descripcion: { readonly column: 'descripcion' };
+                readonly dispositivo: { readonly column: 'dispositivo' };
+                readonly estado: { readonly column: 'estado' };
+                readonly fechaEntrega: { readonly column: 'fechaEntrega' };
+                readonly fechaIngreso: { readonly column: 'fechaIngreso' };
+                readonly id: { readonly column: 'id' };
+                readonly imei: { readonly column: 'imei' };
+                readonly marca: { readonly column: 'marca' };
+                readonly modelo: { readonly column: 'modelo' };
+                readonly observaciones: { readonly column: 'observaciones' };
+                readonly problema: { readonly column: 'problema' };
+                readonly servicio: { readonly column: 'servicio' };
+              };
+            };
+          };
+        };
       };
     };
   };
