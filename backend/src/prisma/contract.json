@@ -121,6 +121,13 @@
                   "kind": "scalar"
                 }
               },
+              "diagnostico": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
               "dispositivo": {
                 "nullable": false,
                 "type": {
@@ -197,10 +204,10 @@
                   "kind": "scalar"
                 }
               },
-              "servicio": {
+              "reparacion": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
+                  "codecId": "pg/bool@1",
                   "kind": "scalar"
                 }
               }
@@ -240,6 +247,9 @@
                 "descripcion": {
                   "column": "descripcion"
                 },
+                "diagnostico": {
+                  "column": "diagnostico"
+                },
                 "dispositivo": {
                   "column": "dispositivo"
                 },
@@ -270,8 +280,8 @@
                 "problema": {
                   "column": "problema"
                 },
-                "servicio": {
-                  "column": "servicio"
+                "reparacion": {
+                  "column": "reparacion"
                 }
               },
               "namespaceId": "public",
@@ -364,6 +374,15 @@
                   "dataType": "pg/text",
                   "nullable": true
                 },
+                "diagnostico": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "default": {
+                    "kind": "literal",
+                    "value": false
+                  },
+                  "nullable": false
+                },
                 "dispositivo": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
@@ -432,9 +451,13 @@
                   "dataType": "pg/text",
                   "nullable": false
                 },
-                "servicio": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
+                "reparacion": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "default": {
+                    "kind": "literal",
+                    "value": false
+                  },
                   "nullable": false
                 }
               },
@@ -482,7 +505,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "50100f8632963795b14408268e63a9c4fdd74b63e9e9c6df3e5640c30c064ba6"
+    "storageHash": "4df8cc6fb54e25e5c1711739e66e0627fc1aacc1d865e7c21b18cc120e0d04ec"
   },
   "capabilities": {
     "postgres": {

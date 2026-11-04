@@ -17,8 +17,10 @@ model Ficha {
   modelo           String
   imei             String?
   bloqueo          String?
-  servicio         String
-  problema         String
+  diagnostico      Boolean   @default(false)
+  reparacion       Boolean   @default(false)
+  hardware         Boolean   @default(false)
+  software         Boolean   @default(false)
   descripcion      String?
   observaciones    String?
   estado           String    @default("recibido")

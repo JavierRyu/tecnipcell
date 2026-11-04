@@ -1,4 +1,4 @@
-import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
+import { IsBoolean, IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
 
 export class CrearFichaDto {
     @IsInt()
@@ -16,13 +16,21 @@ export class CrearFichaDto {
     @IsNotEmpty()
     modelo!: string;
 
-    @IsString()
-    @IsNotEmpty()
-    servicio!: string;
+    @IsOptional()
+    @IsBoolean()
+    hardware?: boolean;
 
-    @IsString()
-    @IsNotEmpty()
-    problema!: string;
+    @IsOptional()
+    @IsBoolean()
+    software?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    diagnostico?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    reparacion?: boolean;
 
     @IsOptional()
     @IsString()

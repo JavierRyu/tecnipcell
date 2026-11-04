@@ -1,10 +1,6 @@
-function App() {
+import { FichaForm } from "./components/FichaForm";
 
-  return (
-    <h1 className="text-3xl font-bold text-teal-500">
-      Hello World!
-    </h1>
-  )
+export default function App() {
+  return <FichaForm />;
 }
 
-export default App

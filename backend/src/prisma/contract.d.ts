@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'50100f8632963795b14408268e63a9c4fdd74b63e9e9c6df3e5640c30c064ba6'>;
+  StorageHashBase<'4df8cc6fb54e25e5c1711739e66e0627fc1aacc1d865e7c21b18cc120e0d04ec'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -322,6 +322,7 @@ export namespace Models {
     clienteId: FieldOutputTypes['public']['Ficha']['clienteId'];
     costo: FieldOutputTypes['public']['Ficha']['costo'];
     descripcion: FieldOutputTypes['public']['Ficha']['descripcion'];
+    diagnostico: FieldOutputTypes['public']['Ficha']['diagnostico'];
     dispositivo: FieldOutputTypes['public']['Ficha']['dispositivo'];
     estado: FieldOutputTypes['public']['Ficha']['estado'];
     fechaEntrega: FieldOutputTypes['public']['Ficha']['fechaEntrega'];
@@ -332,7 +333,7 @@ export namespace Models {
     modelo: FieldOutputTypes['public']['Ficha']['modelo'];
     observaciones: FieldOutputTypes['public']['Ficha']['observaciones'];
     problema: FieldOutputTypes['public']['Ficha']['problema'];
-    servicio: FieldOutputTypes['public']['Ficha']['servicio'];
+    reparacion: FieldOutputTypes['public']['Ficha']['reparacion'];
     cliente: public_Cliente;
     readonly [RelationKeys]?: 'cliente';
   };
@@ -439,6 +440,16 @@ type ContractBase = Omit<
                   readonly nullable: true;
                   readonly many: false;
                 };
+                readonly diagnostico: {
+                  readonly dataType: 'pg/bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/bool@1', false>;
+                  };
+                  readonly many: false;
+                };
                 readonly dispositivo: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
@@ -510,10 +521,14 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly servicio: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
+                readonly reparacion: {
+                  readonly dataType: 'pg/bool';
+                  readonly codecId: 'pg/bool@1';
                   readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/bool@1', false>;
+                  };
                   readonly many: false;
                 };
               };
@@ -625,6 +640,10 @@ type ContractBase = Omit<
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly diagnostico: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
               readonly dispositivo: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -673,9 +692,9 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly servicio: {
+              readonly reparacion: {
                 readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
               };
             };
             readonly relations: {
@@ -701,6 +720,7 @@ type ContractBase = Omit<
                 readonly clienteId: { readonly column: 'clienteId' };
                 readonly costo: { readonly column: 'costo' };
                 readonly descripcion: { readonly column: 'descripcion' };
+                readonly diagnostico: { readonly column: 'diagnostico' };
                 readonly dispositivo: { readonly column: 'dispositivo' };
                 readonly estado: { readonly column: 'estado' };
                 readonly fechaEntrega: { readonly column: 'fechaEntrega' };
@@ -711,7 +731,7 @@ type ContractBase = Omit<
                 readonly modelo: { readonly column: 'modelo' };
                 readonly observaciones: { readonly column: 'observaciones' };
                 readonly problema: { readonly column: 'problema' };
-                readonly servicio: { readonly column: 'servicio' };
+                readonly reparacion: { readonly column: 'reparacion' };
               };
             };
           };
